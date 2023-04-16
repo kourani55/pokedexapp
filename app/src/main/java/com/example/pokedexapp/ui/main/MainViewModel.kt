@@ -29,7 +29,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val url = "https://pokeapi.co/api/v2/pokemon?limit=1000"
 
         val request = JsonObjectRequest(Request.Method.GET, url, null,
-            Response.Listener { response ->
+            { response ->
                 try {
                     val results = response.getJSONArray("results")
                     val names = mutableListOf<String>()
@@ -38,14 +38,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                         val name = pokemon.getString("name")
                         names.add(name)
                     }
+
                     pokemonNames.value = names
+                    filteredPokemonNames.value = names
+
                     Log.d(TAG, "Received Pokemon names in MainViewModel: $names")
                 } catch (e: JSONException) {
                     error.value = "Error parsing JSON response: ${e.localizedMessage}"
                     Log.e(TAG, "Error parsing JSON response: ${e.localizedMessage}")
                 }
             },
-            Response.ErrorListener { error ->
+            { error ->
                 this.error.value = "Error fetching Pokemon names: ${error.localizedMessage}"
                 Log.e(TAG, "Error fetching Pokemon names: ${error.localizedMessage}")
             })
