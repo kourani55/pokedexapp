@@ -39,7 +39,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                         names.add(name)
                     }
                     pokemonNames.value = names
-                    Log.d(TAG, "Received Pokemon names: $names")
+                    Log.d(TAG, "Received Pokemon names in MainViewModel: $names")
                 } catch (e: JSONException) {
                     error.value = "Error parsing JSON response: ${e.localizedMessage}"
                     Log.e(TAG, "Error parsing JSON response: ${e.localizedMessage}")
