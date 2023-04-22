@@ -64,12 +64,28 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 // extract the relevant data from the response
                 val pokemonData = JSONObject()
                 pokemonData.put("name", response.getString("name"))
-                //pokemonData.put("description", "some description") // add code to fetch description
                 pokemonData.put("image_url", response.getJSONObject("sprites").getString("front_default"))
                 pokemonData.put("type", response.getJSONArray("types").getJSONObject(0).getJSONObject("type").getString("name"))
 
-                Log.i("DATA", pokemonData.toString())
-                onSuccess(pokemonData)
+                val speciesUrl = response.getJSONObject("species").getString("url")
+                val speciesRequest = JsonObjectRequest(Request.Method.GET, speciesUrl, null,
+                    { speciesResponse ->
+                        val flavorTextEntries = speciesResponse.getJSONArray("flavor_text_entries")
+                        for (i in 0 until flavorTextEntries.length()) {
+                            val entry = flavorTextEntries.getJSONObject(i)
+                            val language = entry.getJSONObject("language").getString("name")
+                            val text = entry.getString("flavor_text")
+                            if (language == "en") {
+                                pokemonData.put("description", text.replace("\n", " "))
+                                break
+                            }
+                        }
+                        onSuccess(pokemonData)
+                    },
+                    { speciesError ->
+                        onError(speciesError.message ?: "Error fetching Pokemon species data")
+                    })
+                queue.add(speciesRequest)
             },
             { error ->
                 onError(error.message ?: "Error fetching Pokemon data")

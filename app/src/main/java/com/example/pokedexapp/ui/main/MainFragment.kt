@@ -41,11 +41,18 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val defaultItem = "Select a Pokemon"
         viewModel.filteredPokemonNames.observe(viewLifecycleOwner, { pokemonNames ->
-            binding.spinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, pokemonNames)
+            binding.spinner.adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                pokemonNames.toMutableList().apply { add(0, defaultItem) })
+                .apply {
+                    setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                }
         })
 
+        binding.spinner.setSelection(0)
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 // pass the selected pokemon to the activity
