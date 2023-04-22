@@ -1,6 +1,7 @@
 package com.example.pokedexapp.ui.main
 
 import android.content.ContentValues.TAG
+import android.icu.text.IDNA.Info
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -51,6 +52,17 @@ class MainFragment : Fragment() {
                 val selectedPokemonName = binding.spinner.selectedItem.toString()
                 val selectedPokemonJsonObject = JSONObject()
                 selectedPokemonJsonObject.put("name", selectedPokemonName)
+
+                val infoFragment = InfoFragment()
+                val bundle = Bundle()
+                bundle.putString("selectedPokemonName", selectedPokemonName)
+                infoFragment.arguments = bundle
+
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.infoFragView, infoFragment)
+                    .addToBackStack(null)
+                    .commit()
+
                 activityCallback?.pokemonSelect(selectedPokemonJsonObject)
             }
 

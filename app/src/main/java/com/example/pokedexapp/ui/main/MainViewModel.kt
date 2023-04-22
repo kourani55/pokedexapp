@@ -5,11 +5,10 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONException
+import org.json.JSONObject
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -21,7 +20,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun filterPokemonNames(query: String) {
         val filteredList = pokemonNames.value?.filter { it.contains(query, ignoreCase = true) }
-        filteredPokemonNames.value = filteredList
+        filteredPokemonNames.value = filteredList!!
     }
 
     fun fetchPokemonNames() {
@@ -55,4 +54,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
         queue.add(request)
     }
+
+    fun fetchPokemonImagesAndText(pokemonId: String?, onSuccess: (pokemonData: JSONObject) -> Unit, onError: (errorMessage: String) -> Unit) {
+        val queue = Volley.newRequestQueue(getApplication())
+        val pokemonUrl = "https://pokeapi.co/api/v2/pokemon/$pokemonId"
+
+        val pokemonRequest = JsonObjectRequest(Request.Method.GET, pokemonUrl, null,
+            { response ->
+                // extract the relevant data from the response
+                val pokemonData = JSONObject()
+                pokemonData.put("name", response.getString("name"))
+                //pokemonData.put("description", "some description") // add code to fetch description
+                pokemonData.put("image_url", response.getJSONObject("sprites").getString("front_default"))
+                pokemonData.put("type", response.getJSONArray("types").getJSONObject(0).getJSONObject("type").getString("name"))
+
+                Log.i("DATA", pokemonData.toString())
+                onSuccess(pokemonData)
+            },
+            { error ->
+                onError(error.message ?: "Error fetching Pokemon data")
+            })
+
+        queue.add(pokemonRequest)
+    }
+
 }
+
