@@ -8,7 +8,7 @@
     tools:context=".ui.main.InfoFragment">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/pokePic"
         android:layout_width="170dp"
         android:layout_height="170dp"
         android:layout_marginStart="62dp"
@@ -25,5 +25,5 @@
         android:layout_marginTop="26dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/pokePic" />
 </androidx.constraintlayout.widget.ConstraintLayout>
