@@ -8,7 +8,7 @@
     tools:context=".MainActivity" >
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView3"
+        android:id="@+id/spinnerFragView"
         android:name="com.example.pokedexapp.ui.main.MainFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,4 +17,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/fragment_main" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/infoFragView"
+        android:name="com.example.pokedexapp.ui.main.InfoFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="93dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerFragView"
+        tools:layout="@layout/fragment_info" />
 </androidx.constraintlayout.widget.ConstraintLayout>
