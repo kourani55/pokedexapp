@@ -94,51 +94,5 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         queue.add(pokemonRequest)
     }
 
-    fun fetchShinyPokemon(pokemonId: String?, onSuccess: (pokemonData: JSONObject) -> Unit, onError: (errorMessage: String) -> Unit) {
-        val queue = Volley.newRequestQueue(getApplication())
-        val pokemonUrl = "https://pokeapi.co/api/v2/pokemon/$pokemonId"
-
-        val pokemonRequest = JsonObjectRequest(Request.Method.GET, pokemonUrl, null,
-            { response ->
-                // extract the relevant data from the response
-                val pokemonData = JSONObject()
-                pokemonData.put("name", response.getString("name"))
-                pokemonData.put("image_url", response.getJSONObject("sprites").getString("front_shiny"))
-                pokemonData.put("type", response.getJSONArray("types").getJSONObject(0).getJSONObject("type").getString("name"))
-
-                val speciesUrl = response.getJSONObject("species").getString("url")
-                val speciesRequest = JsonObjectRequest(Request.Method.GET, speciesUrl, null,
-                    { speciesResponse ->
-                        val flavorTextEntries = speciesResponse.getJSONArray("flavor_text_entries")
-                        for (i in 0 until flavorTextEntries.length()) {
-                            val entry = flavorTextEntries.getJSONObject(i)
-                            val language = entry.getJSONObject("language").getString("name")
-                            val text = entry.getString("flavor_text")
-                            if (language == "en") {
-                                pokemonData.put("description", text.replace("\n", " "))
-                                break
-                            }
-                        }
-                        onSuccess(pokemonData)
-                    },
-                    { speciesError ->
-                        onError(speciesError.message ?: "Error fetching Pokemon species data")
-                    })
-                queue.add(speciesRequest)
-            },
-            { error ->
-                onError(error.message ?: "Error fetching Pokemon data")
-            })
-
-        queue.add(pokemonRequest)
-    }
-
-    fun fetchPokemon(isShiny: Boolean, pokemonId: String?, onSuccess: (pokemonData: JSONObject) -> Unit, onError: (errorMessage: String) -> Unit) {
-        if(isShiny){
-            fetchShinyPokemon(pokemonId, onSuccess, onError)
-        } else {
-            fetchPokemonImagesAndText(pokemonId, onSuccess, onError)
-        }
-    }
 }
 

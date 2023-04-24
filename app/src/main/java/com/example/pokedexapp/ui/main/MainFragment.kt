@@ -71,7 +71,6 @@ class MainFragment : Fragment() {
                     .commit()
 
                 activityCallback?.pokemonSelect(selectedPokemonJsonObject)
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
