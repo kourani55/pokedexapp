@@ -47,4 +47,14 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pokeName" />
+
+    <Switch
+        android:id="@+id/shinySwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shiny"
+        app:layout_constraintBottom_toTopOf="@+id/pokeName"
+        app:layout_constraintEnd_toEndOf="@+id/pokePic"
+        app:layout_constraintStart_toStartOf="@+id/pokePic"
+        app:layout_constraintTop_toBottomOf="@+id/pokePic" />
 </androidx.constraintlayout.widget.ConstraintLayout>

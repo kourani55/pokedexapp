@@ -55,16 +55,22 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         queue.add(request)
     }
 
-    fun fetchPokemonImagesAndText(pokemonId: String?, onSuccess: (pokemonData: JSONObject) -> Unit, onError: (errorMessage: String) -> Unit) {
+    fun fetchPokemonImagesAndText(pokemonId: String?, onSuccess: (pokemonData: JSONObject) -> Unit, onError: (errorMessage: String) -> Unit, isShiny: Boolean) {
         val queue = Volley.newRequestQueue(getApplication())
         val pokemonUrl = "https://pokeapi.co/api/v2/pokemon/$pokemonId"
 
+        var shinyString = "front_default"
+        if(isShiny)
+        {
+            shinyString = "front_shiny"
+        }
         val pokemonRequest = JsonObjectRequest(Request.Method.GET, pokemonUrl, null,
             { response ->
                 // extract the relevant data from the response
                 val pokemonData = JSONObject()
                 pokemonData.put("name", response.getString("name"))
-                pokemonData.put("image_url", response.getJSONObject("sprites").getString("front_default"))
+                pokemonData.put("image_url", response.getJSONObject("sprites").getString(shinyString))
+
                 pokemonData.put("type", response.getJSONArray("types").getJSONObject(0).getJSONObject("type").getString("name"))
 
                 val speciesUrl = response.getJSONObject("species").getString("url")

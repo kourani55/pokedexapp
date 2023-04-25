@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import com.example.pokedexapp.R
 import com.example.pokedexapp.databinding.FragmentMainBinding
 import org.json.JSONObject
@@ -41,6 +42,10 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Set up the switch listener using View Binding
+
+
         val defaultItem = "Select a Pokemon"
         viewModel.filteredPokemonNames.observe(viewLifecycleOwner, { pokemonNames ->
             binding.spinner.adapter = ArrayAdapter(
@@ -77,5 +82,6 @@ class MainFragment : Fragment() {
         }
     }
 }
+
 
 
