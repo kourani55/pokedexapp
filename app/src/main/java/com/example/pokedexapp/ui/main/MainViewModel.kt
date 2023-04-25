@@ -70,7 +70,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 val pokemonData = JSONObject()
                 pokemonData.put("name", response.getString("name"))
                 pokemonData.put("image_url", response.getJSONObject("sprites").getString(shinyString))
-
                 pokemonData.put("type", response.getJSONArray("types").getJSONObject(0).getJSONObject("type").getString("name"))
 
                 val speciesUrl = response.getJSONObject("species").getString("url")
@@ -99,6 +98,27 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
         queue.add(pokemonRequest)
     }
+    fun fetchPokemonMoves(pokemonId: String?, onSuccess: (moves: List<String>) -> Unit, onError: (errorMessage: String) -> Unit) {
+        val queue = Volley.newRequestQueue(getApplication())
+        val pokemonUrl = "https://pokeapi.co/api/v2/pokemon/$pokemonId"
 
+        val pokemonRequest = JsonObjectRequest(Request.Method.GET, pokemonUrl, null,
+            { response ->
+                // extract the relevant data from the response
+                val movesList = mutableListOf<String>()
+                val movesJsonArray = response.getJSONArray("moves")
+                for (i in 0 until movesJsonArray.length()) {
+                    val move = movesJsonArray.getJSONObject(i)
+                    val moveName = move.getJSONObject("move").getString("name")
+                    movesList.add(moveName)
+                }
+                onSuccess(movesList)
+            },
+            { error ->
+                onError(error.message ?: "Error fetching Pokemon moves data")
+            })
+
+        queue.add(pokemonRequest)
+    }
 }
 

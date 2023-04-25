@@ -13,7 +13,7 @@
         android:layout_height="200dp"
         android:layout_marginStart="48dp"
         android:layout_marginTop="8dp"
-        android:background="#FFFFFF"
+        android:background="#00FFFFFF"
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,7 +24,8 @@
         android:layout_height="30dp"
         android:layout_marginStart="48dp"
         android:layout_marginTop="43dp"
-        android:text="TextView"
+        android:background="#00F6F0F0"
+        android:fontFamily="serif"
         android:textAlignment="textStart"
         android:textColor="#000000"
         android:textSize="20dp"
@@ -38,7 +39,26 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="39dp"
-        android:text="TextView"
+        android:layout_marginBottom="28dp"
+        android:fontFamily="serif"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textColor="#040404"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/pokeMoves"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pokeName" />
+
+    <TextView
+        android:id="@+id/pokeMoves"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="56dp"
+        android:fontFamily="serif"
         android:textAlignment="textStart"
         android:textAllCaps="false"
         android:textColor="#040404"
@@ -46,15 +66,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pokeName" />
+        app:layout_constraintTop_toBottomOf="@+id/pokeDescription" />
 
     <Switch
         android:id="@+id/shinySwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="serif"
         android:text="Shiny"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/pokeName"
         app:layout_constraintEnd_toEndOf="@+id/pokePic"
         app:layout_constraintStart_toStartOf="@+id/pokePic"
         app:layout_constraintTop_toBottomOf="@+id/pokePic" />
+
+    <Button
+        android:id="@+id/movesetBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="143dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="143dp"
+        android:text="GET  MOVES"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pokeMoves" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

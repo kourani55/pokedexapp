@@ -77,6 +77,16 @@ class InfoFragment : Fragment() {
                 }, isShiny)
             }
         }
+        binding.movesetBtn.setOnClickListener {
+            viewModel.fetchPokemonMoves(selectedPokemonName, { moves ->
+
+                val movesString = moves.joinToString(", ")
+
+                binding.pokeMoves.text = movesString
+            }, {errorMessage ->
+                Log.i("POKEMOVES", "ERROR: $errorMessage")
+            })
+        }
 
         return binding.root
     }
