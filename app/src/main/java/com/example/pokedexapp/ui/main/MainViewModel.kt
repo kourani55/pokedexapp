@@ -25,7 +25,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun fetchPokemonNames() {
         val queue = Volley.newRequestQueue(getApplication())
-        val url = "https://pokeapi.co/api/v2/pokemon?limit=1000"
+        val url = "https://pokeapi.co/api/v2/pokemon?limit=905"
 
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
